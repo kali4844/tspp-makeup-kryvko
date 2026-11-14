@@ -36,3 +36,8 @@ def test_first_day_of_next_month_is_not_counted():  # R4, межа
 def test_nonexistent_month_raises_value_error():  # R5, недійсний вхід
     with pytest.raises(ValueError):
         readings.consumption("m1", "2026-13")
+
+
+def test_negative_value_is_rejected():  # R6, недійсний вхід (TDD)
+    with pytest.raises(ValueError):
+        readings.add("m1", -5, "2026-10-01")

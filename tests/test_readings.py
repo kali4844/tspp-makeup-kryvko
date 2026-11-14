@@ -41,3 +41,9 @@ def test_nonexistent_month_raises_value_error():  # R5, недійсний вх�
 def test_negative_value_is_rejected():  # R6, недійсний вхід (TDD)
     with pytest.raises(ValueError):
         readings.add("m1", -5, "2026-10-01")
+
+
+def test_reading_added_later_with_earlier_date_does_not_break_consumption():  # інцидент 1
+    # показник за 10 жовтня внесли після показника за 31 жовтня
+    fill(("2026-09-30", 1000), ("2026-10-31", 1060), ("2026-10-10", 1030))
+    assert readings.consumption("m1", "2026-10") == 60

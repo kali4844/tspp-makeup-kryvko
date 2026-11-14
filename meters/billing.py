@@ -1,26 +1,17 @@
 """Рахунок за місяць і пошук підозрілих показників."""
-import json
-import os
 from datetime import datetime
 
-from meters import readings
+from meters import readings, storage
 
 MAX_JUMP = 500  # найбільший звичайний приріст між двома показниками
 DECREASE = "значення менше попереднього"
 JUMP = "різкий стрибок"
 
 
-def _load():
-    if not os.path.exists(readings.data_path()):
-        return []
-    with open(readings.data_path(), encoding="utf-8") as f:
-        return json.load(f)
-
-
 def bill(month, tariff):
     """Сума до сплати за місяць: споживання всіх лічильників × тариф за одиницю."""
     datetime.strptime(month, "%Y-%m")
-    counters = {r["counter"] for r in _load()}
+    counters = {r["counter"] for r in storage.load()}
     total = sum(readings.consumption(c, month) for c in sorted(counters))
     return round(total * tariff, 2)
 
@@ -38,7 +29,7 @@ def anomalies():
     """Підозрілі показники: значення менше за попереднє або стрибок понад MAX_JUMP."""
     result = []
     last = {}
-    for r in _load():
+    for r in storage.load():
         counter = r["counter"]
         if counter in last:
             reason = _reason(last[counter], r["value"])

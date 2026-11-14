@@ -9,6 +9,8 @@ def data_path():
 
 
 def add(counter, value, date):
+    if value < 0:
+        raise ValueError("значення показника не може бути від'ємним")
     records = []
     if os.path.exists(data_path()):
         with open(data_path(), encoding="utf-8") as f:

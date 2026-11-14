@@ -1,0 +1,4 @@
+#!/bin/sh
+# Локальна перевірка перед push. Встановлення: cp scripts/pre-push .git/hooks/pre-push && chmod +x .git/hooks/pre-push
+# Це зручність для автора; обов'язкову перевірку робить CI (.github/workflows/ci.yml).
+exec make check

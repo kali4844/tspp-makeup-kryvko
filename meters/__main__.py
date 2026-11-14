@@ -1,4 +1,5 @@
 """Запуск з консолі: python -m meters <команда> ..."""
+import logging
 import sys
 
 from meters import billing, readings
@@ -30,4 +31,5 @@ def main(argv):
 
 
 if __name__ == "__main__":
+    logging.basicConfig(level=logging.INFO, format="%(levelname)s %(name)s %(message)s")
     sys.exit(main(sys.argv[1:]))

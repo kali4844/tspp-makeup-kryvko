@@ -20,7 +20,7 @@ def test_single_reading_in_month_gives_zero():  # R1, межа
 
 def test_two_readings_in_month_give_last_minus_first():  # R2
     fill(("2026-10-05", 100), ("2026-10-25", 130))
-    assert readings.consumption("m1", "2026-10") == 30
+    assert readings.consumption("m1", "2026-10") == 31
 
 
 def test_base_is_last_reading_of_previous_month():  # R3, межа

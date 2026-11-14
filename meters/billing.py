@@ -5,6 +5,8 @@ from datetime import datetime
 
 from meters import readings
 
+MAX_JUMP = 500  # найбільший звичайний приріст між двома показниками
+
 
 def _load():
     if not os.path.exists(readings.data_path()):
@@ -22,7 +24,7 @@ def bill(month, tariff):
 
 
 def anomalies():
-    """Підозрілі показники: значення менше за попереднє або стрибок понад 500."""
+    """Підозрілі показники: значення менше за попереднє або стрибок понад MAX_JUMP."""
     result = []
     last = {}
     for r in _load():
@@ -31,7 +33,7 @@ def anomalies():
             if r["value"] < last[counter]:
                 result.append((counter, r["date"], "значення менше попереднього"))
             else:
-                if r["value"] - last[counter] > 500:
+                if r["value"] - last[counter] > MAX_JUMP:
                     result.append((counter, r["date"], "різкий стрибок"))
         last[counter] = r["value"]
     return result

@@ -1,3 +1,16 @@
 [tool.pytest.ini_options]
 pythonpath = ["."]
 testpaths = ["tests"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+
+[tool.ruff.lint]
+# E, W — стиль pycodestyle; F — pyflakes (помилки); SIM — спрощення коду;
+# PLR2004 — «магічні числа»; PLR5501 — зайва вкладеність else + if.
+select = ["E", "F", "W", "SIM", "PLR2004", "PLR5501"]
+
+[tool.ruff.lint.per-file-ignores]
+# У тестах очікуване значення в assert — це літерал за визначенням, «магічні числа» тут не вада.
+"tests/*" = ["PLR2004"]

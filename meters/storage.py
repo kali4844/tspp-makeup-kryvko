@@ -8,11 +8,11 @@ def _path():
 
 
 def load():
-    """Усі записи у порядку збереження."""
+    """Усі записи, впорядковані за датою (записи з однаковою датою — у порядку внесення)."""
     if not os.path.exists(_path()):
         return []
     with open(_path(), encoding="utf-8") as f:
-        return json.load(f)
+        return sorted(json.load(f), key=lambda r: r["date"])
 
 
 def save(records):

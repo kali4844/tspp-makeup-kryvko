@@ -21,3 +21,11 @@ def test_top_consumers_returns_largest_first():
 def test_top_consumers_returns_list():
     readings.add("a", 5, "2026-10-01")
     assert isinstance(billing.top_consumers("2026-10", 1), list)
+
+
+def test_equal_consumption_is_ordered_by_counter_name():
+    for counter in "hgfedcba":
+        readings.add(counter, 0, "2026-09-30")
+        readings.add(counter, 10, "2026-10-31")
+    result = billing.top_consumers("2026-10", 8)
+    assert [name for name, _ in result] == list("abcdefgh")

@@ -37,3 +37,10 @@ def anomalies():
                 result.append((counter, r["date"], reason))
         last[counter] = r["value"]
     return result
+
+
+def top_consumers(month, n):
+    """Повертає n лічильників з найбільшим споживанням за місяць."""
+    counters = {r["counter"] for r in storage.load()}
+    totals = {c: readings.consumption(c, month) for c in counters}
+    return sorted(totals.items(), key=lambda item: item[1], reverse=True)[:n]

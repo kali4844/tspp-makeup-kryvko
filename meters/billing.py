@@ -40,7 +40,8 @@ def anomalies():
 
 
 def top_consumers(month, n):
-    """Повертає n лічильників з найбільшим споживанням за місяць."""
-    counters = {r["counter"] for r in storage.load()}
+    """Повертає n лічильників з найбільшим споживанням; рівні — за назвою лічильника."""
+    counters = sorted({r["counter"] for r in storage.load()})
     totals = {c: readings.consumption(c, month) for c in counters}
-    return sorted(totals.items(), key=lambda item: item[1], reverse=True)[:n]
+    ranked = sorted(totals.items(), key=lambda item: (-item[1], item[0]))
+    return ranked[:n]

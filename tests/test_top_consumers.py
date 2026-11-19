@@ -29,3 +29,9 @@ def test_equal_consumption_is_ordered_by_counter_name():
         readings.add(counter, 10, "2026-10-31")
     result = billing.top_consumers("2026-10", 8)
     assert [name for name, _ in result] == list("abcdefgh")
+
+
+def test_negative_n_is_rejected():
+    readings.add("a", 5, "2026-10-01")
+    with pytest.raises(ValueError):
+        billing.top_consumers("2026-10", -1)
